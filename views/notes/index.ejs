@@ -1,0 +1,37 @@
+<% include ../partials/header %>
+  
+
+    <header class="jumbotron jumbotron-fluid">
+        <div class="container">
+            <h1 class="display-8">Welcome to scratchpad!</h1>
+            <p class="lead">Here's a list of all the Note you got.</p>
+            <p>
+                <a class="btn btn-primary btn-lg" href="notes/new">Add new Note</a>
+            </p>
+        </div>
+    </header>
+    
+    <div class="container">
+        <div class="row" style="display:flex; flex-wrap: wrap;">
+            <div class="card-columns">
+            <% notes.forEach(function(note){ %>
+                    <div class="card">
+                        <div class="card-body">
+                            <h5 class="card-title">
+                                <a><%= note.name %></a>
+                            </h5>
+                            <p class="card-text">
+                                <%= note.text %>
+                            </p>
+                            <a href="/notes/<%= note._id %>/edit" class="btn btn-xs btn-primary">Edit</a>
+                            <form class="delete-form" action="/notes/<%= note._id %>?_method=DELETE" method="POST">
+                                <button class="btn btn-xs btn-danger">Delete</button>
+                            </form>
+                        </div>
+                    </div>
+            <% }); %> 
+            </div>
+        </div>
+    </div>
+
+<% include ../partials/footer %>
