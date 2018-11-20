@@ -1,20 +1,24 @@
 <% include ../partials/header %>
 <div class="container">
     <div class="row">
-        <h1 style="text-align: center;">Add a new note</h1>
-        <div style="width: 30%; margin: 25px auto;">
+        <h1>Add a new note</h1>
+    </div>
+    <div class="row">
+        <div class="w-100">
             <form action="/notes" method="post">
                 <div class="form-group">
-                    <input class="form-control" type="text" name="name" placeholder="Taskname">
+                    <label for="noteTitle">Titel der Notiz</label>
+                    <input class="form-control" id="noteTitle" type="text" name="name" placeholder="Taskname">
                 </div>
-                <div class="form-group">
-                    <input class="form-control" type="text" name="text" placeholder="Note Content">
+                   <div class="form-group">
+                    <label for="noteTextEntry">Notiztext</label>
+                    <textarea class="form-control" id="noteTextEntry" name="note[text]" placeholder="Note Content" rows="5"></textarea>
                 </div>
                 <div class="form-group">
                     <button class="btn btn-lg btn-default btn-block btn-primary">Submit!</button>
                 </div>
             </form>
-            <a href="/">Go Back</a>
+            <a href="/notes">Go Back</a>
         </div>
     </div>
 </div>
