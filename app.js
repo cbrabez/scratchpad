@@ -32,13 +32,11 @@ app.use(require("express-session")({
     saveUninitialized: false
 }));
 
-/*
 app.use(passport.initialize());
 app.use(passport.session());
 passport.use(new LocalStrategy(User.authenticate()));
 passport.serializeUser(User.serializeUser());
 passport.deserializeUser(User.deserializeUser());
-*/
 
 app.use(function(req, res, next){
     res.locals.currentUser = req.user;
@@ -57,5 +55,5 @@ app.use("/campgrounds", campgroundRoutes);
 
 // Server Setup
 app.listen(process.env.PORT, process.env.IP, function(){
-    console.log("The YelpCamp Server has started!");
+    console.log("ScratchPad Server has started!");
 });
