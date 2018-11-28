@@ -12,7 +12,7 @@ var express     = require("express"),
 
 // requiring routes
 var noteRoutes       = require("./routes/notes"),
-    indexRoutes         = require("./routes/index")
+    indexRoutes         = require("./routes/index");
 
 // mongoose.connect(process.env.DATABASEURL);
 mongoose.connect("mongodb://chris:password1234@ds061839.mlab.com:61839/scratchpad_dev");
@@ -22,7 +22,7 @@ app.set("view engine", "ejs");
 app.use(express.static(__dirname + "/public"));
 app.use(methodOverride("_method"));
 app.use(flash());
-seedDB(); // seeding the database
+//seedDB(); // seeding the database
 
 // passport configuration
 
@@ -43,7 +43,7 @@ app.use(function(req, res, next){
     res.locals.error = req.flash("error");
     res.locals.success = req.flash("success");
     next();
-})
+});
 
 
 app.use("/", indexRoutes);

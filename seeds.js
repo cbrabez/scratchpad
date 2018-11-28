@@ -32,7 +32,7 @@ function seedDB(){
             console.log(err);
         }
         console.log("removed notes!")
-        
+     
         // add a few campgrounds
         data.forEach(function(seed){
             Note.create(seed, function(err, campground){

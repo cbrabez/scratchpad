@@ -16,7 +16,7 @@ router.get("/", function(req, res){
 });
 
 // EDIT NOTE ROUTE
-router.get("/:id/edit", middleware.checkNoteOwnership, function(req, res) {
+router.get("/:id/edit",middleware.checkNoteOwnership, function(req, res) {
             Note.findById(req.params.id, function(err, foundNote){
                 res.render("notes/edit", {note: foundNote});
             });
@@ -35,27 +35,27 @@ router.put("/:id", middleware.checkNoteOwnership, function(req, res){
 });
 
 // CREATE - add new note to DB
-router.post("/", middleware.isLoggedIn, function(req, res){
+router.post("/",middleware.isLoggedIn, function(req, res){
    var name = req.body.name;
    var text = req.body.text;
-/* var author = {
+   var author = {
        id: req.user._id,
        username: req.user.username
    };
-*/
-   var newNote = {name: name, text: text};
+   var newNote = {name: name, text: text, author: author};
+   console.log(newNote);
    Note.create(newNote, function(err, newlyCreated){
       if(err){
           console.log(err);
       } else {
           console.log(newlyCreated);
-          res.redirect("/");
+          res.redirect("/notes");
       }
    });
 });
 
 // NEW - show form to create new note
-router.get("/new", middleware.isLoggedIn, function(req, res) {
+router.get("/new",middleware.isLoggedIn, function(req, res) {
    res.render("notes/new"); 
 });
 
