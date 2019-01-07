@@ -1,0 +1,25 @@
+<% include ../partials/header %>
+<div class="container">
+    <div class="row">
+    </div>
+    <div class="row">
+        <div class="w-100">
+            <form action="/projects" method="post">
+                <div class="form-group">
+                    <label for="projectName">Name des Projekts</label>
+                    <input class="form-control" id="projectName" type="text" name="name" placeholder="Projektname">
+                </div>
+             <!--<div class="form-group">
+                    <label for="projectContent">Inhalt</label>
+                    <textarea class="form-control" id="projectContent" name="content" placeholder="Projektinhalt" rows="5"></textarea>
+                </div>
+            -->      
+                <div class="form-group">
+                    <button class="btn btn-lg btn-default btn-block btn-primary">Submit!</button>
+                </div>
+            </form>
+            <a href="/projects">Go Back</a>
+        </div>
+    </div>
+</div>
+<% include ../partials/footer %>

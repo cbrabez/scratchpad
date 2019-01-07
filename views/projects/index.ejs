@@ -1,0 +1,29 @@
+<% include ../partials/header %>
+
+    <header class="jumbotron jumbotron-fluid">
+        <div class="container">
+            <h1 class="display-4"> Index | Projects</h1>
+        </div>
+    </header>  
+
+<div class="container">
+    <div class="row" style="display:flex; flex-wrap: wrap;">
+        <div class="col">
+            <ul class="list-group task-list">
+            <% projects.forEach(function(project){ %>
+               <li name="name" data-id="<%= project._id %>" class="list-group-item">
+                <span contentEditable="true"><%= project.name %></span>
+               </li>
+            <% }); %>
+            </ul>
+        </div>
+    </div>
+    <div id="sticky-btn">
+        <a class="btn btn-primary btn-lg" href="#">Add Project</a>
+    </div>
+</div>
+
+<script>
+</script> 
+            
+<% include ../partials/footer %>

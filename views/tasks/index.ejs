@@ -1,0 +1,89 @@
+<% include ../partials/header %>
+
+    <header class="jumbotron jumbotron-fluid">
+        <div class="container">
+            <h1 class="display-4">Index | Tasks</h1>
+        </div>
+    </header>
+    
+<div class="container">
+    <ul class="list-group task-list">
+        <% tasks.forEach(function(task){ %>
+            <div class="row" style="display:flex; flex-wrap: wrap;">
+                <div class="col-12">
+                    <li name="name" data-id="<%= task._id %>" class="list-group-item">
+                        <input type="checkbox" class="checkbox">
+                        <span class="task-item" contentEditable="true" data-id="<%= task.name %>"><%= task.name %></span>
+                            <div class="form-group float-right">
+                                <select class="form-control project-select">
+                                    <% projects.forEach(function(project){ %>
+                                        <option data-id="<%= project._id %>"><%= project.name %></option>
+                                    <% }); %>
+                                </select>
+                            </div>
+                    
+                    </li>
+                </div>
+            </div>
+        <% }); %>
+    </ul>
+            
+            
+</div>
+<div id="sticky-btn">
+    <a class="btn btn-primary btn-lg" href="#">Add Task</a>
+</div>
+             
+<script>
+
+// Edit item inline --> save when focus is lost
+$(".list-group-item").focusout(function(){
+var taskId = $(this).attr('data-id');
+var list_item = $(this);
+var taskname = list_item.find("span").attr('data-id');
+var projectname = list_item.find("select option:selected").text();
+var projectid = list_item.find("select option:selected").attr('data-id');
+console.log(projectname + "    " + projectid);
+   $.ajax({
+      method: "POST",
+      url: "/tasks/" + taskId + "/?_method=PUT",
+      data: {ID: taskId, task: taskname,  pName: projectname, pId: projectid},
+      success: function(result) {
+        console.log("SUCCESS Edit");
+      }
+    });
+});
+
+// Delete item with checkbox
+
+   $(".checkbox").on('change', function(){
+         var taskId = $(this).parent().attr('data-id');
+         $.ajax({
+            method: "POST",
+            url: "/tasks/" + taskId + "/?_method=DELETE",
+            data: {id: taskId},
+            success: function(result) {
+               console.log("SUCCESS DELETE");
+               $(".task-list").load(" .task-list > *");
+               }
+         });
+   });
+
+// Add new task in current list (without form)
+$("#sticky-btn").click(function(){
+   $.ajax({
+      method: "POST",
+      url: "/tasks",
+      data: {name: "New Task"},
+      success: function(result) {
+        console.log("SUCCESS ADD");
+         var url = "https://webdevbootcamp-cbrabez.c9users.io/tasks?CLASS=" + Math.random(); //create random number
+        setTimeout(function() {
+        $(".task-list").load(url+" .task-list>*","");
+        }, 100); //wait one second to run function
+      }
+    });
+});
+</script> 
+            
+<% include ../partials/footer %>
