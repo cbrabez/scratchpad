@@ -39,25 +39,25 @@ router.get("/:id/edit",middleware.checkTaskOwnership, function(req, res) {
 });
 
 // UPDATE Task ROUTE
-router.put("/:id", middleware.checkTaskOwnership, function(req, res){
+router.put("/:id", function(req, res){
     console.log("YOU HIT THE UPDATE ROUTE");
-    var name = req.body.task;
+    var name = req.body.name;
     var author = {
        id: req.user._id,
        username: req.user.username
    };
    
-   var newTask = {name: name, author: author};
+   var newProject = {name: name, author: author};
    
     // find and update correct task
-    Task.findByIdAndUpdate(req.params.id, newTask, function(err, updatedTask){
+    Project.findByIdAndUpdate(req.params.id, newProject, function(err, updatedProject){
         if(err){
             res.redirect("/");
             console.log(req.body.task);
         } else {
-            res.redirect("/tasks");
+            res.redirect("/projects");
             console.log(req.params.id);
-            console.log(newTask);
+            console.log(newProject);
         }
     });
 });
@@ -76,7 +76,7 @@ router.post("/",middleware.isLoggedIn, function(req, res){
           console.log(err);
       } else {
           console.log(newlyCreated);
-          res.redirect("/tasks");
+          res.redirect("/projects");
       }
    });
 });

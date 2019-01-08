@@ -38,7 +38,7 @@ console.log(projectid);
    $.ajax({
       method: "POST",
       url: "/tasks/" + taskId + "/?_method=PUT",
-      data: {ID: taskId, task: taskname, pId: projectid},
+      data: {ID: taskId, name: taskname, pId: projectid},
       success: function(result) {
          console.log(taskId + "     " +  taskname + "     " + projectid);
         console.log("SUCCESS Edit");

@@ -12,7 +12,7 @@
             <ul class="list-group task-list">
             <% projects.forEach(function(project){ %>
                <li name="name" data-id="<%= project._id %>" class="list-group-item">
-                <a href="/projects/<%= project._id %>"><span contentEditable="true"><%= project.name %></span></a>
+                <span contentEditable="true"><%= project.name %></span><a href="/projects/<%= project._id %>"> Go to project</a>
                </li>
             <% }); %>
             </ul>
@@ -24,6 +24,38 @@
 </div>
 
 <script>
+// Edit item inline --> save when focus is lost
+
+$(".list-group-item").focusout(function(){
+var projectid = $(this).attr('data-id');
+var projectname = $(this).find("span").text();
+console.log(projectname);
+console.log(projectid);
+   $.ajax({
+      method: "POST",
+      url: "/projects/" + projectid + "/?_method=PUT",
+      data: {ID: projectid, name: projectname},
+      success: function(result) {
+        console.log("SUCCESS EDIT");
+        location.reload(true);
+      }
+    });
+});
+
+
+
+// Add new task in current list (without form)
+$("#sticky-btn").click(function(){
+   $.ajax({
+      method: "POST",
+      url: "/projects",
+      data: {name: "New Project"},
+      success: function(result) {
+        console.log("SUCCESS ADD");
+        location.reload(true);
+      }
+    });
+});
 </script> 
             
 <% include ../partials/footer %>
