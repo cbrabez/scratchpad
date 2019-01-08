@@ -24,14 +24,14 @@ router.get("/",middleware.isLoggedIn, function(req, res){
 });
 
 // EDIT TASK ROUTE
-router.get("/:id/edit",middleware.checkTaskOwnership, function(req, res) {
+router.get("/:id/edit", function(req, res) {
             Task.findById(req.params.id, function(err, foundTask){
                 res.render("tasks/edit", {task: foundTask});
             });
 });
 
 // UPDATE Task ROUTE
-router.put("/:id", middleware.checkTaskOwnership, function(req, res){
+router.put("/:id", function(req, res){
     console.log("YOU HIT THE UPDATE ROUTE");
     var name = req.body.task;
     var project = {
@@ -88,7 +88,7 @@ router.get("/new",middleware.isLoggedIn, function(req, res) {
 });
 
 // DESTROY TASK ROUTE
-router.delete("/:id", middleware.checkTaskOwnership, function(req, res){
+router.delete("/:id", function(req, res){
     Task.findByIdAndRemove(req.params.id, function(err){
         console.log("Trying to delete" + req.params.id);
         if(err){

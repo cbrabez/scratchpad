@@ -39,7 +39,7 @@
 $(".list-group-item").focusout(function(){
 var taskId = $(this).attr('data-id');
 var list_item = $(this);
-var taskname = list_item.find("span").attr('data-id');
+var taskname = list_item.find("span").text();
 var projectname = list_item.find("select option:selected").text();
 var projectid = list_item.find("select option:selected").attr('data-id');
 console.log(projectname + "    " + projectid);
@@ -48,11 +48,10 @@ console.log(projectname + "    " + projectid);
       url: "/tasks/" + taskId + "/?_method=PUT",
       data: {ID: taskId, task: taskname,  pName: projectname, pId: projectid},
       success: function(result) {
-        console.log("SUCCESS Edit");
       }
     });
 });
-
+    
 // display mathing Projekt to task in select box
 $(function(){
     $("select > option").each(function(){
@@ -62,7 +61,6 @@ $(function(){
         }
     });
 });
-
 
 // Delete item with checkbox
 
@@ -74,10 +72,7 @@ $(function(){
             data: {id: taskId},
             success: function(result) {
                 console.log("SUCCESS DELETE");
-                var url = "https://webdevbootcamp-cbrabez.c9users.io/tasks?CLASS=" + Math.random(); //create random number
-                setTimeout(function() {
-                $(".task-list").load(url+" .task-list>*","");
-                }, 100); //wait one second to run function
+                location.reload(true);
             }
          });
    });
@@ -90,10 +85,7 @@ $("#sticky-btn").click(function(){
       data: {name: "New Task"},
       success: function(result) {
         console.log("SUCCESS ADD");
-         var url = "https://webdevbootcamp-cbrabez.c9users.io/tasks?CLASS=" + Math.random(); //create random number
-        setTimeout(function() {
-        $(".task-list").load(url+" .task-list>*","");
-        }, 100); //wait one second to run function
+        location.reload(true);
       }
     });
 });

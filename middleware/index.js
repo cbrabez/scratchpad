@@ -31,6 +31,7 @@ middlewareObj.checkTaskOwnership = function(req, res, next){
                 } else {
                     // does user own task?
                     if(foundTask.author.id.equals(req.user._id)){
+                        console.log(foundTask.author.id)
                         next();
                     } else {
                         req.flash("error", "You don't have permission to do that.");

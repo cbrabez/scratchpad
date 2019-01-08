@@ -2,7 +2,7 @@
 
     <header class="jumbotron jumbotron-fluid">
         <div class="container">
-            <h1 class="display-4">Index | Tasks</h1>
+            <h1 class="display-4">Index | Tasks for Project - <%= project.name %></h1>
         </div>
     </header>
     
@@ -27,20 +27,19 @@
 </div>
 
 <script>
-
 // Edit item inline --> save when focus is lost
 $(".list-group-item").focusout(function(){
 var taskId = $(this).attr('data-id');
 var list_item = $(this);
-var taskname = list_item.find("span").attr('data-id');
-var projectname = list_item.find("select option:selected").text();
-var projectid = list_item.find("select option:selected").attr('data-id');
-console.log(projectname + "    " + projectid);
+var taskname = list_item.find("span").text();
+var projectid = "<%= project._id %>";
+console.log(projectid);
    $.ajax({
       method: "POST",
       url: "/tasks/" + taskId + "/?_method=PUT",
-      data: {ID: taskId, task: taskname,  pName: projectname, pId: projectid},
+      data: {ID: taskId, task: taskname, pId: projectid},
       success: function(result) {
+         console.log(taskId + "     " +  taskname + "     " + projectid);
         console.log("SUCCESS Edit");
       }
     });
@@ -55,23 +54,24 @@ console.log(projectname + "    " + projectid);
             data: {id: taskId},
             success: function(result) {
                console.log("SUCCESS DELETE");
-               $(".task-list").load(" .task-list > *");
-               }, 100);
+                 var url = "https://webdevbootcamp-cbrabez.c9users.io/projects?CLASS=" + Math.random(); //create random number
+                 setTimeout(function() {
+                 $(".task-list").load(url+" .task-list>*","");
+                 }, 100); //wait one second to run function
+            }
          });
    });
 
 // Add new task in current list (without form)
 $("#sticky-btn").click(function(){
+var projectid = "<%= project._id %>";
    $.ajax({
       method: "POST",
       url: "/tasks",
       data: {name: "New Task"},
       success: function(result) {
         console.log("SUCCESS ADD");
-         var url = "https://webdevbootcamp-cbrabez.c9users.io/tasks?CLASS=" + Math.random(); //create random number
-        setTimeout(function() {
-        $(".task-list").load(url+" .task-list>*","");
-        }, 100); //wait one second to run function
+        location.reload(true);
       }
     });
 });

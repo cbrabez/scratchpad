@@ -23,10 +23,8 @@ router.get("/:id", function(req, res){
       if(err){
             console.log(err);
       } else {
-         console.log(req.params.id);
          Task.find({'project.id': req.params.id }, function(err, specificTasks){
-            console.log(specificTasks);
-            res.render("projects/project", {tasks: specificTasks});
+            res.render("projects/project", {tasks: specificTasks, project: foundProject});
          });
       }
                 //res.render("tasks/edit", {task: foundTask});
