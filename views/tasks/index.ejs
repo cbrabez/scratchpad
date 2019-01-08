@@ -4,6 +4,15 @@
         <div class="container">
             <h1 class="display-4">Index | Tasks</h1>
         </div>
+        <div class="container project-select">
+            <ul class="nav justify-content-center">
+                <% projects.forEach(function(project){ %>
+                  <li class="nav-item">
+                    <a class="nav-link active" href="/projects/<%= project._id %>"><%= project.name %></a>
+                  </li>
+                <% }); %>
+            </ul>
+        </div>
     </header>
     
 <div class="container">

@@ -12,7 +12,7 @@
             <ul class="list-group task-list">
             <% projects.forEach(function(project){ %>
                <li name="name" data-id="<%= project._id %>" class="list-group-item">
-                <span contentEditable="true"><%= project.name %></span>
+                <a href="/projects/<%= project._id %>"><span contentEditable="true"><%= project.name %></span></a>
                </li>
             <% }); %>
             </ul>
