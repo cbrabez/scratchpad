@@ -11,7 +11,7 @@
         <% tasks.forEach(function(task){ %>
             <div class="row" style="display:flex; flex-wrap: wrap;">
                 <div class="col-12">
-                    <li name="name" data-id="<%= task._id %>" class="list-group-item">
+                    <li name="name" data-project-id="<%= task.project.id %>" data-id="<%= task._id %>" class="list-group-item">
                         <input type="checkbox" class="checkbox">
                         <span class="task-item" contentEditable="true" data-id="<%= task.name %>"><%= task.name %></span>
                             <div class="form-group float-right">
@@ -35,7 +35,6 @@
 </div>
              
 <script>
-
 // Edit item inline --> save when focus is lost
 $(".list-group-item").focusout(function(){
 var taskId = $(this).attr('data-id');
@@ -54,6 +53,17 @@ console.log(projectname + "    " + projectid);
     });
 });
 
+// display mathing Projekt to task in select box
+$(function(){
+    $("select > option").each(function(){
+        var pID = $(this).closest("li").attr("data-project-id");
+        if($(this).attr("data-id") == pID){
+            $(this).attr("selected","selected");
+        }
+    });
+});
+
+
 // Delete item with checkbox
 
    $(".checkbox").on('change', function(){
@@ -63,9 +73,12 @@ console.log(projectname + "    " + projectid);
             url: "/tasks/" + taskId + "/?_method=DELETE",
             data: {id: taskId},
             success: function(result) {
-               console.log("SUCCESS DELETE");
-               $(".task-list").load(" .task-list > *");
-               }
+                console.log("SUCCESS DELETE");
+                var url = "https://webdevbootcamp-cbrabez.c9users.io/tasks?CLASS=" + Math.random(); //create random number
+                setTimeout(function() {
+                $(".task-list").load(url+" .task-list>*","");
+                }, 100); //wait one second to run function
+            }
          });
    });
 

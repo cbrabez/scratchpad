@@ -47,7 +47,6 @@ console.log(projectname + "    " + projectid);
 });
 
 // Delete item with checkbox
-
    $(".checkbox").on('change', function(){
          var taskId = $(this).parent().attr('data-id');
          $.ajax({
@@ -57,7 +56,7 @@ console.log(projectname + "    " + projectid);
             success: function(result) {
                console.log("SUCCESS DELETE");
                $(".task-list").load(" .task-list > *");
-               }
+               }, 100);
          });
    });
 
