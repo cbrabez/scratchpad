@@ -4,6 +4,16 @@
         <div class="container">
             <h1 class="display-4">Index | Tasks for Project - <%= project.name %></h1>
         </div>
+         <div class="container project-select">
+           <button class="btn btn-secondary btn-sm dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+               Select Project
+           </button>
+             <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+               <% projects.forEach(function(project){ %>
+                   <a class="dropdown-item" href="/projects/<%= project._id %>"><%= project.name %></a>
+               <% }); %>
+            </div>
+       </div>
     </header>
     
 <div class="container">
@@ -20,9 +30,6 @@
         <% }); %>
     </ul>
 </div>
-<div class="container">
-   <a href="/projects">Back to Project-Index</a>
-</div>
 <div id="sticky-btn">
     <a class="btn btn-primary btn-lg" href="#">Add Task</a>
 </div>
@@ -34,11 +41,11 @@ var taskId = $(this).attr('data-id');
 var list_item = $(this);
 var taskname = list_item.find("span").text();
 var projectid = "<%= project._id %>";
-console.log(projectid);
+console.log(taskname);
    $.ajax({
       method: "POST",
       url: "/tasks/" + taskId + "/?_method=PUT",
-      data: {ID: taskId, name: taskname, pId: projectid},
+      data: {ID: taskId, name: taskname, pId: projectid, pName: "<%= project.name %>"},
       success: function(result) {
          console.log(taskId + "     " +  taskname + "     " + projectid);
         console.log("SUCCESS Edit");
@@ -69,7 +76,7 @@ var projectid = "<%= project._id %>";
    $.ajax({
       method: "POST",
       url: "/tasks",
-      data: {name: "New Task"},
+      data: {name: "New Task", pId: "<%= project._id %>", pName: "<%= project.name %>"},
       success: function(result) {
         console.log("SUCCESS ADD");
         location.reload(true);

@@ -24,7 +24,14 @@ router.get("/:id", function(req, res){
             console.log(err);
       } else {
          Task.find({'project.id': req.params.id }, function(err, specificTasks){
-            res.render("projects/project", {tasks: specificTasks, project: foundProject});
+            Project.find({}, function(err, allProjects){
+               if(err){
+                  console.log(err);
+               } else {
+                  res.render("projects/project", {tasks: specificTasks, project: foundProject, projects: allProjects});
+               }
+            }); 
+            
          });
       }
                 //res.render("tasks/edit", {task: foundTask});

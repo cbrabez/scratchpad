@@ -7,34 +7,41 @@
         <meta name="description" content="">
         <meta name="author" content="">
         <title>ScratchPad</title>
+        <!-- Font Awesome -->
+        <script defer src="https://use.fontawesome.com/releases/v5.6.3/js/solid.js" integrity="sha384-F4BRNf3onawQt7LDHDJm/hwm3wBtbLIfGk1VSB/3nn3E+7Rox1YpYcKJMsmHBJIl" crossorigin="anonymous"></script>
+        <script defer src="https://use.fontawesome.com/releases/v5.6.3/js/fontawesome.js" integrity="sha384-treYPdjUrP4rW5q82SnECO7TPVAz4bpas16yuE9F5o7CeBn2YYw1yr5oC8s8Mf8t" crossorigin="anonymous"></script>
+        <!-- Bootstrap Assets -->
+        <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO" crossorigin="anonymous">
         <script src="https://code.jquery.com/jquery-3.3.1.min.js" integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8=" crossorigin="anonymous"></script>
         <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/js/bootstrap.bundle.min.js" integrity="sha384-pjaaA8dDz/5BgdFUPX6M/9SUZv4d12SUPF0axWc+VRZkx5xU3daN+lYb49+Ax+Tl" crossorigin="anonymous"></script>
         <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO" crossorigin="anonymous">
+        <!-- custom CSS -->
         <link rel="stylesheet" href="/stylesheets/main.css">
-        <!-- Bootstrap core CSS -->
-        <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO" crossorigin="anonymous">
         <title>Scratchpad - a minimal Task-Manager</title>
-
-
     </head>
     <body>
-        <nav class="site-header sticky-top py-1">
-            <div class="container d-flex flex-column flex-md-row justify-content-between">
-                <a class="py-2" href="#">
-                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="d-block mx-auto"><circle cx="12" cy="12" r="10"></circle><line x1="14.31" y1="8" x2="20.05" y2="17.94"></line><line x1="9.69" y1="8" x2="21.17" y2="8"></line><line x1="7.38" y1="12" x2="13.12" y2="2.06"></line><line x1="9.69" y1="16" x2="3.95" y2="6.06"></line><line x1="14.31" y1="16" x2="2.83" y2="16"></line><line x1="16.62" y1="12" x2="10.88" y2="21.94"></line></svg>
-                </a>
-                    <a class="py-2 d-none d-md-inline-block" href="/tasks">Tasks</a>
-                    <a class="py-2 d-none d-md-inline-block" href="/notes">Notes</a>
-                    <a class="py-2 d-none d-md-inline-block" href="/projects">Projects</a>
+        <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+            <a class="navbar-brand" href="#"><i class="fas fa-cogs"></i></a>
+                  <button class="navbar-toggler ml-auto custom-toggler" type="button" data-toggle="collapse" data-target="#collapsingNavbar" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+                </button>
+                <div class="collapse navbar-collapse" id="collapsingNavbar">
+                    <ul class="navbar-nav mr-auto">
+                    <li class="nav-item"><a class="nav-link" href="/tasks">Tasks</a></li>
+                    <li class="nav-item"><a class="nav-link" href="/notes">Notes</a></li>
+                    <li class="nav-item"><a class="nav-link" href="/projects">Projects</a></li>
                 <% if(!currentUser){ %>
-                    <a class="py-2 d-none d-md-inline-block" href="/login">Login</a>
-                    <a class="py-2 d-none d-md-inline-block" href="/register">Sign Up</a>
+                    <li class="nav-item"><a class="nav-link" href="/login">Login</a></li>
+                    <li class="nav-item"><a class="nav-link" href="/register">Sign Up</a></li>
                 <% } else { %>
-                    <a class="py-2 d-none d-md-inline-block" href="#">Signed In As <%= currentUser.username %></a>
-                    <a class="py-2 d-none d-md-inline-block" href="/logout">Logout</a>
+                    <li class="nav-item"><a class="nav-link" href="#">Signed In As <%= currentUser.username %></a></li>
+                    <li class="nav-item"><a class="nav-link" href="/logout">Logout</a></li>
                 <% } %>
-            </div>
+                </ul>
+                </div>
+        
         </nav>
+    
     
     <div class="container">
         <% if(error && error.length > 0){ %>

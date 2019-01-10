@@ -33,7 +33,7 @@ router.get("/:id/edit", function(req, res) {
 // UPDATE Task ROUTE
 router.put("/:id", function(req, res){
     console.log("YOU HIT THE UPDATE ROUTE");
-    var name = req.body.task;
+    var name = req.body.name;
     var project = {
         id: req.body.pId,
         projectname: req.body.pName
@@ -63,8 +63,8 @@ router.post("/",middleware.isLoggedIn, function(req, res){
    var name = req.body.name;
    var content = req.body.content;
    var project = {
-       id: "5c2d3d2892d32f068988b472",
-       name: "Inbox"
+       id: req.body.pId,
+       name: req.body.pName
    };
 
    var author = {

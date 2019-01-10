@@ -8,7 +8,7 @@ var taskSchema = mongoose.Schema({
             type: mongoose.Schema.Types.ObjectId,
             ref: "Project"
         },
-        name: String,
+        name: String
    },
    author: {
         id: {
