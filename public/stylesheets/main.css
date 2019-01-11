@@ -6,6 +6,11 @@
     display: inline;
 }
 
+.delete-task {
+  padding-left: 1em;
+}
+
+
 .alert-danger {
    z-index: 1;
    position: absolute;
@@ -21,7 +26,11 @@ textarea {
 
 input[type='checkbox'] {
     width: 20px;
-    height: 20px;        
+    height: 20px;       
+}
+
+.list-group-item {
+  height: 55px;
 }
 
 .list-group-item span {
@@ -32,6 +41,9 @@ input[type='checkbox'] {
    text-align: right;
 }
 
+.delete-task {
+  padding-top: 4px;
+}
 
 /*
  * Sticky Add-Task Button
@@ -49,11 +61,11 @@ input[type='checkbox'] {
     right: 5%; 
 }
 
-/* Landing Page Styles */ 
-.select-box {
-  max-width: 960px;
+.clearfix:after {
+  content: "";
+  display: table;
+  clear: both;
 }
-
 
 /*
  * Dummy devices (replace them with your own or something else entirely!)

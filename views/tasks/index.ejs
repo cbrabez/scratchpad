@@ -17,21 +17,22 @@
     </header>
     
 <div class="container">
-    <ul class="list-group task-list">
+    <ul class="list-group task-list ">
         <% tasks.forEach(function(task){ %>
             <div class="row" style="display:flex; flex-wrap: wrap;">
-                <div class="col-12">
-                    <li name="name" data-project-id="<%= task.project.id %>" data-id="<%= task._id %>" class="list-group-item">
-                        <input type="checkbox" class="checkbox">
+                <div class="col-12 table">
+                    <li name="name" data-project-id="<%= task.project.id %>" data-id="<%= task._id %>" class="list-group-item clearfix">
+                        <input type="checkbox" class="form-check-input checkbox">
                         <span class="task-item" contentEditable="true" data-id="<%= task.name %>"><%= task.name %></span>
-                            <div class="form-group float-right select-box">
-                                <select class="form-control menu project-select">
+                        <span class="delete-task float-right" ><a href="#"><i class="fas fa-times fa-lg"></i></a></span>
+                            <div class="form-group select-box float-right">
+                                <select class="form-control project-select">
                                     <% projects.forEach(function(project){ %>
                                         <option data-id="<%= project._id %>"><%= project.name %></option>
                                     <% }); %>
                                 </select>
+                                
                             </div>
-                    
                     </li>
                 </div>
             </div>
@@ -86,6 +87,20 @@ $(function(){
             }
          });
    });
+   
+// delete task on button click
+$(".delete-task").on('click', function(){
+   var taskId = $(this).parent().attr('data-id');
+   $.ajax({
+      method: "POST",
+      url: "/tasks/" + taskId + "/?_method=DELETE",
+      data: {id: taskId},
+      success: function(result) {
+          console.log("SUCCESS DELETE");
+          location.reload(true);
+      }
+   });
+});
 
 // Add new task in current list (without form)
 $("#sticky-btn").click(function(){
