@@ -61,6 +61,10 @@ input[type='checkbox'] {
     right: 5%; 
 }
 
+.date {
+   width: 12em;
+}
+
 .clearfix:after {
   content: "";
   display: table;

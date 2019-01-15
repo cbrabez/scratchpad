@@ -25,7 +25,15 @@
                         <input type="checkbox" class="form-check-input checkbox">
                         <span class="task-item" contentEditable="true" data-id="<%= task.name %>"><%= task.name %></span>
                         <span class="delete-task float-right" ><a href="#"><i class="fas fa-times fa-lg"></i></a></span>
-                            <div class="form-group select-box float-right">
+                        <span class="float-right">
+                            <div class="input-group date" id="datetimepicker_<%= task._id %>" data-target-input="nearest" data-due-date="<%= moment(task.dueDate).format() %>">
+                                <input type="text" class="form-control datetimepicker-input" data-target="#datetimepicker_<%= task._id %>"/>
+                                <div class="input-group-append" data-target="#datetimepicker_<%= task._id %>" data-toggle="datetimepicker">
+                                    <div class="input-group-text"><i class="fa fa-calendar"></i></div>
+                                </div>
+                            </div>
+                        </span>
+                            <div class="inline form-group select-box float-right">
                                 <select class="form-control project-select">
                                     <% projects.forEach(function(project){ %>
                                         <option data-id="<%= project._id %>"><%= project.name %></option>
@@ -33,6 +41,7 @@
                                 </select>
                                 
                             </div>
+                        
                     </li>
                 </div>
             </div>
@@ -46,32 +55,51 @@
 </div>
              
 <script>
-// Edit item inline --> save when focus is lost
-$(".list-group-item").focusout(function(){
-var taskId = $(this).attr('data-id');
-var list_item = $(this);
-var taskname = list_item.find("span").text();
-var projectname = list_item.find("select option:selected").text();
-var projectid = list_item.find("select option:selected").attr('data-id');
-console.log(projectname + "    " + projectid);
-   $.ajax({
-      method: "POST",
-      url: "/tasks/" + taskId + "/?_method=PUT",
-      data: {ID: taskId, name: taskname,  pName: projectname, pId: projectid},
-      success: function(result) {
-      }
-    });
-});
-    
-// display mathing Projekt to task in select box
 $(function(){
+   // display matching Projekt to task in select box
     $("select > option").each(function(){
         var pID = $(this).closest("li").attr("data-project-id");
         if($(this).attr("data-id") == pID){
             $(this).attr("selected","selected");
         }
     });
+    $(".date").each(function(){
+      var dueDate = $(this).attr("data-due-date");
+      $(this).datetimepicker({
+         format: 'DD/MM/YYYY',
+         locale: 'de',
+         date: moment(dueDate)
+         }); 
+      });
+      
 });
+
+$
+
+ // Edit item inline --> save when focus is lost
+$(".list-group-item").focusout(function(){
+var list_item = $(this);
+var taskId = list_item.attr('data-id');
+var due_date = $('#datetimepicker_'+taskId).datetimepicker('viewDate').format();
+var taskname = $.trim(list_item.find("span").text());
+var projectname = list_item.find("select option:selected").text();
+var projectid = list_item.find("select option:selected").attr('data-id');
+//console.log(projectname + "    " + projectid);
+console.log("due date is:     " + due_date);
+console.log("taskname is:     " + taskname);
+console.log("projectname is:     " + projectname);
+//console.log(due_date);
+   $.ajax({
+      method: "POST",
+      url: "/tasks/" + taskId + "/?_method=PUT",
+      data: {ID: taskId, name: $.trim(taskname), dueDate: due_date,  pName: projectname, pId: projectid},
+      success: function(result) {
+      }
+    });
+});
+    
+
+
 
 // Delete item with checkbox
 

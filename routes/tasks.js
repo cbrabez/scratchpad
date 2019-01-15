@@ -1,4 +1,5 @@
 var express = require("express");
+var moment = require("moment");
 var router = express.Router();
 var Task = require("../models/task");
 var Project = require("../models/project")
@@ -15,7 +16,7 @@ router.get("/",middleware.isLoggedIn, function(req, res){
                 if(err){
                     console.log(err);
                 } else{
-                    res.render("tasks/index", {tasks: allTasks, projects: allProjects});    
+                    res.render("tasks/index", {tasks: allTasks, projects: allProjects, moment: moment});    
                 }
             })
             
@@ -38,12 +39,13 @@ router.put("/:id", function(req, res){
         id: req.body.pId,
         projectname: req.body.pName
     };
+    var dueDate = req.body.dueDate
     var author = {
        id: req.user._id,
        username: req.user.username
    };
    
-   var newTask = {name: name, project: project, author: author};
+   var newTask = {name: name, project: project, dueDate: dueDate, author: author, moment: moment};
    
     // find and update correct task
     Task.findByIdAndUpdate(req.params.id, newTask, function(err, updatedTask){
@@ -61,17 +63,17 @@ router.put("/:id", function(req, res){
 // CREATE - add new task to DB
 router.post("/",middleware.isLoggedIn, function(req, res){
    var name = req.body.name;
-   var content = req.body.content;
+   //var content = req.body.content;
    var project = {
        id: req.body.pId,
        name: req.body.pName
    };
-
+   var dueDate = moment(Date, "DD MM YYYY");
    var author = {
        id: req.user._id,
        username: req.user.username
    };
-   var newTask = {name: name, project: project, content: content, author: author};
+   var newTask = {name: name, project: project, dueDate: dueDate, author: author};
    Task.create(newTask, function(err, newlyCreated){
       if(err){
           console.log(err);
