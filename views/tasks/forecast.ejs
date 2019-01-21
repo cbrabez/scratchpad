@@ -1,20 +1,19 @@
 <% include ../partials/header %>
-
-    <header class="jumbotron jumbotron-fluid">
-        <div class="container">
-            <h1 class="display-4">Index | Tasks</h1>
-        </div>
-        <div class="container project-select">
-            <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                Select Project
-            </button>
-              <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
-                <% projects.forEach(function(project){ %>
-                    <a class="dropdown-item" href="/projects/<%= project._id %>"><%= project.name %></a>
-                <% }); %>
-             </div>
-        </div>
-    </header>
+<header class="jumbotron jumbotron-fluid">
+    <div class="container">
+        <h1 class="display-4">Forecast | Tasks</h1>
+    </div>
+    <div class="container project-select">
+        <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+            Select Project
+        </button>
+          <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+            <% projects.forEach(function(project){ %>
+                <a class="dropdown-item" href="/projects/<%= project._id %>"><%= project.name %></a>
+            <% }); %>
+         </div>
+    </div>
+</header>
     
 <div class="container">
     <ul class="list-group task-list ">
@@ -27,7 +26,7 @@
                         <span class="someday-btn float-right"><a href="#"><i class="fas fa-clock fa-lg"></i></a></span>
                         <span class="delete-task float-right" ><a href="#"><i class="fas fa-times fa-lg"></i></a></span>
                         <span class="float-right">
-                            <div class="input-group date" id="datetimepicker_<%= task._id %>" data-id="<%= task._id %>" data-target-input="nearest" data-due-date="<%= moment(task.dueDate).format() %>">
+                            <div class="input-group date" id="datetimepicker_<%= task._id %>" data-target-input="nearest" data-due-date="<%= task.dueDate %>">
                                 <input type="text" class="form-control datetimepicker-input" data-target="#datetimepicker_<%= task._id %>"/>
                                 <div class="input-group-append" data-target="#datetimepicker_<%= task._id %>" data-toggle="datetimepicker">
                                     <div class="input-group-text"><i class="fa fa-calendar"></i></div>
@@ -42,17 +41,14 @@
                                 </select>
                                 
                             </div>
-                        
                     </li>
                 </div>
             </div>
         <% }); %>
     </ul>
 </div>
-<div id="sticky-btn">
-    <a class="btn btn-primary btn-lg" href="#">Add Task</a>
-</div>
-             
+
+            
 <script>
 $(function(){
    // display matching Projekt to task in select box
@@ -62,25 +58,23 @@ $(function(){
             $(this).attr("selected","selected");
         }
     });
-    $(".date").each(function(){
+      $(".date").each(function(){
       dates = $(this).attr("data-id")
       var dueDate = $(this).attr("data-due-date");
       console.log(dueDate);
       $(this).datetimepicker({
          format: 'DD/MM/YYYY',
          locale: 'de',
-         
          date: moment(dueDate)
          }); 
       });
-      
 });
+
 // Edit item inline --> save when focus is lost
 $(".list-group-item").focusout(function(){
 var list_item = $(this);
 var taskId = list_item.attr('data-id');
 var due_date = $('#datetimepicker_'+taskId).datetimepicker('viewDate').format();
-console.log ("due date is:       "+ due_date);
 var taskname = $.trim(list_item.find("span").text());
 var projectname = list_item.find("select option:selected").text();
 var projectid = list_item.find("select option:selected").attr('data-id');
@@ -109,7 +103,6 @@ $("#sticky-btn").click(function(){
 $('.someday-btn').click(function(){
     $(this).parent().find('.date').datetimepicker('date', '01/01/2099');
 });
-
 </script> 
             
 <% include ../partials/footer %>

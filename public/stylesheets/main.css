@@ -6,8 +6,8 @@
     display: inline;
 }
 
-.delete-task {
-  padding-left: 1em;
+.delete-task, .someday-btn {
+  padding-left: 0.5em;
 }
 
 
@@ -41,8 +41,8 @@ input[type='checkbox'] {
    text-align: right;
 }
 
-.delete-task {
-  padding-top: 4px;
+.delete-task, .someday-btn {
+  padding-top: 0.5em;
 }
 
 /*

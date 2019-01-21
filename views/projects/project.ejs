@@ -53,23 +53,6 @@ console.log(taskname);
     });
 });
 
-// Delete item with checkbox
-   $(".checkbox").on('change', function(){
-         var taskId = $(this).parent().attr('data-id');
-         $.ajax({
-            method: "POST",
-            url: "/tasks/" + taskId + "/?_method=DELETE",
-            data: {id: taskId},
-            success: function(result) {
-               console.log("SUCCESS DELETE");
-                 var url = "https://webdevbootcamp-cbrabez.c9users.io/projects?CLASS=" + Math.random(); //create random number
-                 setTimeout(function() {
-                 $(".task-list").load(url+" .task-list>*","");
-                 }, 100); //wait one second to run function
-            }
-         });
-   });
-
 // Add new task in current list (without form)
 $("#sticky-btn").click(function(){
 var projectid = "<%= project._id %>";

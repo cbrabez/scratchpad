@@ -24,6 +24,25 @@ router.get("/",middleware.isLoggedIn, function(req, res){
     }); 
 });
 
+
+// FORECAST - show all tasks with due date in descending order
+router.get("/forecast",middleware.isLoggedIn, function(req, res) {
+   Task.find({}).sort({dueDate: 'ascending'}).exec(function(err, allTasks){
+        if(err){
+            console.log(err);
+        } else {
+            Project.find({}, function(err, allProjects){
+                if(err){
+                    console.log(err);
+                } else{
+                    res.render("tasks/forecast", {tasks: allTasks, projects: allProjects, moment: moment});    
+                }
+            });
+        }
+    });
+});
+
+
 // EDIT TASK ROUTE
 router.get("/:id/edit", function(req, res) {
             Task.findById(req.params.id, function(err, foundTask){
@@ -68,7 +87,8 @@ router.post("/",middleware.isLoggedIn, function(req, res){
        id: req.body.pId,
        name: req.body.pName
    };
-   var dueDate = moment(Date, "DD MM YYYY");
+   //var dueDate = moment().format();
+   var dueDate = null;
    var author = {
        id: req.user._id,
        username: req.user.username
