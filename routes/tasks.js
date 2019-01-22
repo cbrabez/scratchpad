@@ -5,6 +5,8 @@ var Task = require("../models/task");
 var Project = require("../models/project")
 var middleware = require("../middleware");
 
+const today = moment().startOf('day')
+
 // INDEX - show all tasks
 router.get("/",middleware.isLoggedIn, function(req, res){
     // Get all tasks from DB
@@ -24,22 +26,39 @@ router.get("/",middleware.isLoggedIn, function(req, res){
     }); 
 });
 
-
 // FORECAST - show all tasks with due date in descending order
 router.get("/forecast",middleware.isLoggedIn, function(req, res) {
    Task.find({}).sort({dueDate: 'ascending'}).exec(function(err, allTasks){
         if(err){
             console.log(err);
         } else {
-            Project.find({}, function(err, allProjects){
+            Task.find({dueDate: { 
+                                    $gte: today.toDate(),
+                                    $lte: moment(today).endOf('day').toDate()
+                                }}, function(err, todayTasks) {
                 if(err){
                     console.log(err);
-                } else{
-                    res.render("tasks/forecast", {tasks: allTasks, projects: allProjects, moment: moment});    
-                }
-            });
+                }else
+                var today = moment().format("DD/MM/YYYY");
+                console.log("moment(today) = " + today);
+                console.log("todayTasks content: " + todayTasks);
+                    Project.find({}, function(err, allProjects){
+                        if(err){
+                            console.log(err);
+                        } else{
+                            res.render("tasks/forecast", {
+                                tasks: allTasks, 
+                                todayTasks: todayTasks,
+                                projects: allProjects, 
+                                moment: moment
+                                
+                            });    
+                        }
+                    });
+            });      
         }
     });
+    
 });
 
 
@@ -88,7 +107,7 @@ router.post("/",middleware.isLoggedIn, function(req, res){
        name: req.body.pName
    };
    //var dueDate = moment().format();
-   var dueDate = null;
+   var dueDate = moment();
    var author = {
        id: req.user._id,
        username: req.user.username

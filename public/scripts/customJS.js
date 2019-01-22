@@ -28,7 +28,4 @@ $(function(){
    });
 });
 
-// Button to "select" Someday dueDate of 01/01/2099
-$('.someday-btn').click(function(){
-    $(this).parent().find('.date').datetimepicker('date', '01/01/2099');
-});
+
