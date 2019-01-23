@@ -5,7 +5,8 @@ var Task = require("../models/task");
 var Project = require("../models/project")
 var middleware = require("../middleware");
 
-const today = moment().startOf('day')
+const today = moment().subtract(1, "days").startOf('day').local().format();
+const tomorrow  = moment().startOf('day').add(1,'days').local().format();
 
 // INDEX - show all tasks
 router.get("/",middleware.isLoggedIn, function(req, res){
@@ -33,31 +34,35 @@ router.get("/forecast",middleware.isLoggedIn, function(req, res) {
             console.log(err);
         } else {
             Task.find({dueDate: { 
-                                    $gte: today.toDate(),
-                                    $lte: moment(today).endOf('day').toDate()
+                                    $gte: today,
+                                    $lte: moment(today).endOf('day').format()
                                 }}, function(err, todayTasks) {
                 if(err){
                     console.log(err);
-                }else
-                var today = moment().format("DD/MM/YYYY");
-                console.log("moment(today) = " + today);
-                console.log("todayTasks content: " + todayTasks);
-                    Project.find({}, function(err, allProjects){
-                        if(err){
-                            console.log(err);
-                        } else{
-                            res.render("tasks/forecast", {
-                                tasks: allTasks, 
-                                todayTasks: todayTasks,
-                                projects: allProjects, 
-                                moment: moment
-                                
-                            });    
-                        }
-                    });
+                
+                    }else{
+                         console.log("DATE TOMORROW:   " + tomorrow);
+                   // console.log("TASKS TOMORROW:   " + tomorrowsTasks);
+                      Project.find({}, function(err, allProjects){
+                            if(err){
+                                console.log(err);
+                            } else{
+                                res.render("tasks/forecast", {
+                                    tasks: allTasks, 
+                                    todayTasks: todayTasks,
+                                    //tomorrowsTasks: tomorrowsTasks,
+                                    projects: allProjects, 
+                                    moment: moment
+                                    
+                                });    
+                            }
+                        });  
+                    }
+                    
+                }); 
+                }
             });      
-        }
-    });
+  
     
 });
 
@@ -106,8 +111,8 @@ router.post("/",middleware.isLoggedIn, function(req, res){
        id: req.body.pId,
        name: req.body.pName
    };
-   //var dueDate = moment().format();
-   var dueDate = moment();
+   //var dueDate = moment().format("DD/MM/YYYY");
+   var dueDate = today;
    var author = {
        id: req.user._id,
        username: req.user.username
