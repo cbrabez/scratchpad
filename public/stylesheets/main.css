@@ -22,6 +22,10 @@ hr{
   padding-right: 0.5em;
 }
 
+.task-entry{
+  padding-bottom: 2em;
+}
+
 .alert-danger {
    z-index: 1;
    position: absolute;

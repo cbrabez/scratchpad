@@ -17,6 +17,12 @@
     </header>
     
 <div class="container">
+         <div class="input-group task-entry">
+         <input type="text" id="task-input" class="form-control" placeholder="Title of new task" aria-label="Title of new task" aria-describedby="button-addon2">
+         <div class="input-group-append">
+           <button class="btn btn-outline-secondary" type="button" id="addTask">Add</button>
+         </div>
+      </div>
     <ul class="list-group task-list">
         <% tasks.forEach(function(task){ %>
             <div class="row" style="display:flex; flex-wrap: wrap;">
@@ -48,12 +54,6 @@
             </div>
         <% }); %>
     </ul>
-      <div class="input-group">
-         <input type="text" id="task-input" class="form-control" placeholder="Title of new task" aria-label="Title of new task" aria-describedby="button-addon2">
-         <div class="input-group-append">
-           <button class="btn btn-outline-secondary" type="button" id="addTask">Add</button>
-         </div>
-      </div>
 </div>
 
 <!--
