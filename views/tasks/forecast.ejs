@@ -49,7 +49,37 @@
         <% }); %>
     </ul>
 </div>
-
+<div class="container">
+    <h2>Tomorrow</h2>
+    <hr>
+    <ul class="list-group task-list ">
+        <% tomorrowsTasks.forEach(function(task){ %>
+            <li name="name" data-project-id="<%= task.project.id %>" data-id="<%= task._id %>" class="list-group-item clearfix">
+                <input type="checkbox" class="form-check-input checkbox">
+            <span class="task-item" contentEditable="true" data-id="<%= task.name %>"><%= task.name %></span>
+            <span class="someday-btn float-right"><a href="#"><i class="fas fa-clock fa-lg"></i></a></span>
+            <span class="delete-task float-right" ><a href="#"><i class="fas fa-times fa-lg"></i></a></span>
+            <span class="float-right">
+                <div class="input-group date" id="datetimepicker_<%= task._id %>" data-target-input="nearest" a-due-date="<%= task.dueDate %>">
+                    <input type="text" class="form-control datetimepicker-input" data-target="#datetimepicker_<%= task._id %>"/>
+                    <div class="input-group-append" data-target="#datetimepicker_<%= task._id %>" data-toggleatetimepicker">
+                        <div class="input-group-text"><i class="fa fa-calendar"></i></div>
+                    </div>
+                </div>
+            </span>
+                <div class="inline form-group select-box float-right">
+                    <select class="form-control project-select">
+                        <% projects.forEach(function(project){ %>
+                            <option data-id="<%= project._id %>"><%= project.name %></option>
+                        <% }); %>
+                    </select>
+                    
+                </div>
+                </li>
+        <% }); %>
+    </ul>
+    
+</div>
 
             
 <script>

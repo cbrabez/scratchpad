@@ -17,7 +17,7 @@
     </header>
     
 <div class="container">
-    <ul class="list-group task-list ">
+    <ul class="list-group task-list">
         <% tasks.forEach(function(task){ %>
             <div class="row" style="display:flex; flex-wrap: wrap;">
                 <div class="col-12 table">
@@ -48,13 +48,23 @@
             </div>
         <% }); %>
     </ul>
+      <div class="input-group">
+         <input type="text" id="task-input" class="form-control" placeholder="Title of new task" aria-label="Title of new task" aria-describedby="button-addon2">
+         <div class="input-group-append">
+           <button class="btn btn-outline-secondary" type="button" id="addTask">Add</button>
+         </div>
+      </div>
+</div>
+
+<!--
 </div>
 <div id="sticky-btn">
     <a class="btn btn-primary btn-lg" href="#">Add Task</a>
 </div>
+-->
              
 <script>
-$(function(){
+$(function (){
    // display matching Projekt to task in select box
     $("select > option").each(function(){
         var pID = $(this).closest("li").attr("data-project-id");
@@ -68,13 +78,24 @@ $(function(){
       console.log(dueDate);
       $(this).datetimepicker({
          format: 'DD/MM/YYYY',
-         locale: 'de',
-         
          date: moment(dueDate)
          }); 
       });
-      
 });
+
+$('button').click(function(e) {
+   var new_task = $('#task-input').val();
+   $.ajax({
+      method: "POST",
+      url: "/tasks",
+      data: {name: new_task},
+      success: function(result) {
+        console.log("SUCCESS ADD");
+        location.reload(true);
+      }
+    });
+ });
+
 // Edit item inline --> save when focus is lost
 $(".list-group-item").focusout(function(){
 var list_item = $(this);
@@ -92,18 +113,7 @@ var projectid = list_item.find("select option:selected").attr('data-id');
       }
     });
 });
-// Add new task in current list (without form)
-$("#sticky-btn").click(function(){
-   $.ajax({
-      method: "POST",
-      url: "/tasks",
-      data: {name: "New Task"},
-      success: function(result) {
-        console.log("SUCCESS ADD");
-        location.reload(true);
-      }
-    });
-});
+
 
 // Button to "select" Someday dueDate of 01/01/2099
 $('.someday-btn').click(function(){

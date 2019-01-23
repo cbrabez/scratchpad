@@ -2,16 +2,16 @@ var express = require("express");
 var moment = require("moment");
 var router = express.Router();
 var Task = require("../models/task");
-var Project = require("../models/project")
+var Project = require("../models/project");
 var middleware = require("../middleware");
 
 const today = moment().subtract(1, "days").startOf('day').local().format();
-const tomorrow  = moment().startOf('day').add(1,'days').local().format();
+const tomorrow  = moment().startOf('day').local().format();
 
 // INDEX - show all tasks
 router.get("/",middleware.isLoggedIn, function(req, res){
     // Get all tasks from DB
-    Task.find({}, function(err, allTasks){
+    Task.find({}).sort({'_id': 'ascending'}).exec(function(err, allTasks){
         if(err){
             console.log(err);
         } else {
@@ -39,33 +39,44 @@ router.get("/forecast",middleware.isLoggedIn, function(req, res) {
                                 }}, function(err, todayTasks) {
                 if(err){
                     console.log(err);
-                
                     }else{
-                         console.log("DATE TOMORROW:   " + tomorrow);
-                   // console.log("TASKS TOMORROW:   " + tomorrowsTasks);
-                      Project.find({}, function(err, allProjects){
-                            if(err){
-                                console.log(err);
-                            } else{
-                                res.render("tasks/forecast", {
-                                    tasks: allTasks, 
-                                    todayTasks: todayTasks,
-                                    //tomorrowsTasks: tomorrowsTasks,
-                                    projects: allProjects, 
-                                    moment: moment
-                                    
-                                });    
-                            }
-                        });  
+                                 console.log("DATE START TODAY:   " + today);
+                                 console.log("DATE END TODAY:   " + moment(today).endOf('day').format());
+                                 console.log("TASKS TOMORROW:   " + todayTasks);
+                        Task.find({dueDate: { 
+                           $gte: tomorrow,
+                            $lte: moment(tomorrow).endOf('day').format()
+                            }}, function(err, tomorrowsTasks) {
+                                if(err){
+                                    console.log(err);
+                                }else{
+                                 console.log("DATE START TOMORROW:   " + tomorrow);
+                                 console.log("DATE END TOMORROW:   " + tomorrow);
+                                 console.log("TASKS TOMORROW:   " + tomorrowsTasks);
+                                        Project.find({}, function(err, allProjects){
+                                            if(err){
+                                                console.log(err);
+                                            } else{
+                                                res.render("tasks/forecast", {
+                                                    tasks: allTasks, 
+                                                    todayTasks: todayTasks,
+                                                    tomorrowsTasks: tomorrowsTasks,
+                                                    projects: allProjects, 
+                                                    moment: moment
+                                                    
+                                                });   
+                                            }
+                                        });
+                                        
+                                    }
+                        });
                     }
-                    
-                }); 
-                }
-            });      
-  
-    
+            });
+        }
+   });
 });
-
+ 
+                                    
 
 // EDIT TASK ROUTE
 router.get("/:id/edit", function(req, res) {
